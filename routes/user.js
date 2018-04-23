@@ -3,7 +3,9 @@ const router = express.Router();
 const User = require('../db/user');
 const Sticker = require('../db/sticker');
 
-router.get('/:id', (req, res) => {
+const authMiddleware = require('../auth/middleware');
+
+router.get('/:id', authMiddleware.allowAccess, (req, res) => {
   if (!isNaN(req.params.id)) {
     User.getOne(req.params.id).then(user => {
       if (user) {
